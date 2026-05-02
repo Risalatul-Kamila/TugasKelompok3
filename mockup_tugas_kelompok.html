@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mockup UI – Website Yayasan Darul Furqan</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F0F2F5; color: #1A1A2E; min-height: 100vh; }
+
+  /* ─── Tabs ─────────────────────────────────── */
+  .tab-wrapper { background: #fff; border-bottom: 1px solid #E2E8F0; padding: 0 24px; display: flex; gap: 4px; position: sticky; top: 0; z-index: 100; }
+  .tab { padding: 14px 18px; font-size: 13px; font-weight: 500; color: #64748B; cursor: pointer; border-bottom: 2px solid transparent; transition: all .2s; user-select: none; }
+  .tab:hover { color: #1A56DB; }
+  .tab.active { color: #1A56DB; border-bottom-color: #1A56DB; }
+
+  /* ─── Screen containers ─────────────────────── */
+  .screen { display: none; }
+  .screen.visible { display: block; }
+
+  /* ─── NAVBAR ────────────────────────────────── */
+  .navbar { background: #1A56DB; padding: 0 32px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+  .navbar-brand { font-size: 16px; font-weight: 600; color: #fff; letter-spacing: -.2px; }
+  .nav-links { display: flex; gap: 20px; }
+  .nav-links a { font-size: 13px; color: rgba(255,255,255,.75); text-decoration: none; transition: color .15s; }
+  .nav-links a.active, .nav-links a:hover { color: #fff; }
+  .nav-btn { background: #fff; color: #1A56DB; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 6px; text-decoration: none; }
+
+  /* ─── HERO ──────────────────────────────────── */
+  .hero { background: linear-gradient(135deg, #0F3BAA 0%, #1A56DB 55%, #4F83F0 100%); padding: 52px 32px; text-align: center; }
+  .hero-eyebrow { font-size: 12px; color: rgba(255,255,255,.65); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+  .hero h1 { font-size: 28px; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 10px; }
+  .hero p { font-size: 14px; color: rgba(255,255,255,.8); margin-bottom: 24px; }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-white { background: #fff; color: #1A56DB; font-size: 13px; font-weight: 600; padding: 10px 22px; border-radius: 8px; border: none; cursor: pointer; }
+  .btn-outline { background: transparent; color: #fff; font-size: 13px; font-weight: 500; padding: 10px 22px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,.55); cursor: pointer; }
+
+  /* ─── SECTION ───────────────────────────────── */
+  .section { padding: 28px 32px; background: #fff; }
+  .section + .section { border-top: 1px solid #F1F5F9; }
+  .section-title { font-size: 14px; font-weight: 600; color: #1A1A2E; margin-bottom: 16px; }
+
+  /* ─── CARD GRID ─────────────────────────────── */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .card { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 16px; }
+  .card-icon { font-size: 22px; margin-bottom: 8px; }
+  .card-label { font-size: 13px; font-weight: 600; color: #1A1A2E; margin-bottom: 4px; }
+  .card-desc { font-size: 12px; color: #64748B; line-height: 1.5; }
+
+  /* ─── NEWS ──────────────────────────────────── */
+  .news-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F1F5F9; }
+  .news-item:last-child { border-bottom: none; }
+  .news-thumb { width: 60px; height: 52px; background: #EFF6FF; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .news-meta { font-size: 11px; color: #94A3B8; margin-bottom: 3px; }
+  .news-title { font-size: 13px; font-weight: 500; color: #1A1A2E; line-height: 1.4; }
+
+  /* ─── FOOTER ────────────────────────────────── */
+  .footer { background: #1E293B; padding: 18px 32px; display: flex; justify-content: space-between; align-items: center; }
+  .footer span { font-size: 12px; color: #94A3B8; }
+
+  /* ─── FORM ──────────────────────────────────── */
+  .form-wrap { max-width: 680px; margin: 0 auto; padding: 28px 32px; background: #fff; }
+  .form-hd { font-size: 18px; font-weight: 600; color: #1A1A2E; margin-bottom: 4px; }
+  .form-sub { font-size: 13px; color: #64748B; margin-bottom: 24px; }
+
+  /* Steps */
+  .steps { display: flex; align-items: center; margin-bottom: 28px; }
+  .step { display: flex; align-items: center; gap: 6px; }
+  .step-num { width: 26px; height: 26px; border-radius: 50%; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-num.done { background: #1A56DB; color: #fff; }
+  .step-num.active { background: #1A56DB; color: #fff; box-shadow: 0 0 0 3px #BFDBFE; }
+  .step-num.idle { background: #F1F5F9; color: #94A3B8; border: 1px solid #E2E8F0; }
+  .step-lbl { font-size: 11px; font-weight: 500; color: #64748B; white-space: nowrap; }
+  .step-line { flex: 1; height: 1px; background: #E2E8F0; margin: 0 6px; }
+
+  /* Fields */
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 500; color: #475569; margin-bottom: 5px; }
+  .field input, .field select, .field textarea {
+    width: 100%; padding: 9px 12px; font-size: 13px; font-family: inherit;
+    border: 1px solid #CBD5E1; border-radius: 7px; background: #fff; color: #1A1A2E; outline: none;
+    transition: border-color .15s;
+  }
+  .field input:focus, .field select:focus { border-color: #1A56DB; box-shadow: 0 0 0 2px #BFDBFE; }
+  .field-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .upload-zone { border: 2px dashed #CBD5E1; border-radius: 8px; padding: 20px; text-align: center; background: #F8FAFC; margin-bottom: 14px; }
+  .upload-zone p { font-size: 12px; color: #94A3B8; margin-top: 4px; }
+  .btn-row { display: flex; justify-content: space-between; margin-top: 20px; }
+  .btn-primary { background: #1A56DB; color: #fff; font-size: 13px; font-weight: 600; padding: 10px 22px; border: none; border-radius: 8px; cursor: pointer; }
+  .btn-secondary-btn { background: #F1F5F9; color: #475569; font-size: 13px; font-weight: 500; padding: 10px 22px; border: 1px solid #E2E8F0; border-radius: 8px; cursor: pointer; }
+
+  /* ─── STATUS ─────────────────────────────────── */
+  .status-wrap { max-width: 600px; margin: 0 auto; padding: 28px 32px; }
+  .search-row { display: flex; gap: 10px; margin-bottom: 20px; }
+  .search-row input { flex: 1; padding: 9px 12px; font-size: 13px; font-family: inherit; border: 1px solid #CBD5E1; border-radius: 7px; background: #fff; color: #1A1A2E; outline: none; }
+  .status-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; }
+  .reg-no { font-size: 11px; color: #94A3B8; margin-bottom: 2px; }
+  .applicant-name { font-size: 17px; font-weight: 600; color: #1A1A2E; margin-bottom: 2px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
+  .badge-review { background: #EFF6FF; color: #1D4ED8; }
+  .badge-valid { background: #F0FDF4; color: #15803D; }
+  .badge-pending { background: #FFFBEB; color: #B45309; }
+  .badge-tolak { background: #FEF2F2; color: #B91C1C; }
+  .divider { height: 1px; background: #F1F5F9; margin: 14px 0; }
+  .tl-item { display: flex; gap: 10px; padding: 5px 0; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 3px; flex-shrink: 0; }
+  .tl-dot.done { background: #1A56DB; }
+  .tl-dot.active { background: #15803D; }
+  .tl-dot.idle { background: #CBD5E1; }
+  .tl-text { font-size: 13px; color: #1A1A2E; }
+  .tl-date { font-size: 11px; color: #94A3B8; }
+  .doc-item { display: flex; justify-content: space-between; align-items: center; background: #F8FAFC; border-radius: 7px; padding: 9px 12px; margin-bottom: 6px; }
+  .doc-name { font-size: 12px; color: #1A1A2E; }
+
+  /* ─── ADMIN ──────────────────────────────────── */
+  .admin-layout { display: flex; min-height: 480px; }
+  .sidebar { width: 200px; background: #0F2167; flex-shrink: 0; padding: 16px 0; }
+  .sidebar-brand { font-size: 14px; font-weight: 600; color: #fff; padding: 0 16px 14px; border-bottom: 1px solid rgba(255,255,255,.1); margin-bottom: 8px; }
+  .sidebar-section { font-size: 10px; font-weight: 600; color: rgba(255,255,255,.4); letter-spacing: .08em; padding: 10px 16px 4px; text-transform: uppercase; }
+  .sidebar-item { display: flex; align-items: center; gap: 8px; padding: 9px 16px; font-size: 13px; color: rgba(255,255,255,.65); cursor: pointer; transition: all .15s; }
+  .sidebar-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+  .sidebar-item.active { background: rgba(255,255,255,.12); color: #fff; font-weight: 500; border-right: 2px solid #60A5FA; }
+  .sidebar-item .ico { font-size: 14px; width: 18px; text-align: center; }
+  .admin-main { flex: 1; padding: 24px; background: #F8FAFC; overflow: auto; }
+  .admin-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .admin-page-title { font-size: 18px; font-weight: 600; color: #1A1A2E; }
+  .admin-sub { font-size: 12px; color: #94A3B8; margin-top: 2px; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+  .stat-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 10px; padding: 14px 16px; }
+  .stat-val { font-size: 24px; font-weight: 600; color: #1A1A2E; }
+  .stat-lbl { font-size: 11px; color: #64748B; margin-top: 3px; }
+  .stat-card.blue { border-top: 3px solid #1A56DB; }
+  .stat-card.orange { border-top: 3px solid #F59E0B; }
+  .stat-card.green { border-top: 3px solid #22C55E; }
+  .stat-card.red { border-top: 3px solid #EF4444; }
+  .table-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 10px; overflow: hidden; }
+  .table-card-header { padding: 14px 16px; border-bottom: 1px solid #F1F5F9; display: flex; justify-content: space-between; align-items: center; }
+  .table-card-title { font-size: 13px; font-weight: 600; color: #1A1A2E; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #F8FAFC; color: #64748B; font-weight: 500; font-size: 11px; padding: 10px 14px; text-align: left; border-bottom: 1px solid #E2E8F0; text-transform: uppercase; letter-spacing: .04em; }
+  td { padding: 10px 14px; border-bottom: 1px solid #F1F5F9; color: #1A1A2E; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #F8FAFC; }
+  .act-link { font-size: 12px; color: #1A56DB; cursor: pointer; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- ─── TAB NAVIGATION ─── -->
+<div class="tab-wrapper">
+  <div class="tab active" onclick="switchTab('home',this)">🏫 Beranda</div>
+  <div class="tab" onclick="switchTab('ppdb',this)">📋 PPDB Online</div>
+  <div class="tab" onclick="switchTab('status',this)">🔍 Status Pendaftaran</div>
+  <div class="tab" onclick="switchTab('admin',this)">⚙️ Dashboard Admin</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 1 – BERANDA (PUBLIC)
+══════════════════════════════════════════════ -->
+<div class="screen visible" id="screen-home">
+  <div class="navbar">
+    <div class="navbar-brand">🌙 Darul Furqan</div>
+    <div class="nav-links">
+      <a href="#" class="active">Beranda</a>
+      <a href="#">Profil</a>
+      <a href="#">Berita</a>
+      <a href="#">Galeri</a>
+      <a href="#">Kontak</a>
+      <a href="#" class="nav-btn">Daftar PPDB</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Yayasan Darul Furqan Pariaman</div>
+    <h1>Pendidikan Islami,<br>Cerdas & Berkarakter</h1>
+    <p>PAUD · SDIT Alam · Pondok Pesantren — Kota Pariaman, Sumatera Barat</p>
+    <div class="hero-btns">
+      <button class="btn-white">📋 Daftar PPDB 2025/2026</button>
+      <button class="btn-outline">Profil Sekolah →</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Layanan & Informasi</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🏫</div>
+        <div class="card-label">Profil Sekolah</div>
+        <div class="card-desc">Visi, misi, fasilitas & tenaga pendidik</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <div class="card-label">PPDB Online</div>
+        <div class="card-desc">Formulir pendaftaran peserta didik baru</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📢</div>
+        <div class="card-label">Pengumuman</div>
+        <div class="card-desc">Berita dan informasi terbaru sekolah</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🖼️</div>
+        <div class="card-label">Galeri</div>
+        <div class="card-desc">Dokumentasi kegiatan siswa</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📍</div>
+        <div class="card-label">Kontak & Lokasi</div>
+        <div class="card-desc">Alamat, telepon & peta lokasi</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Berita Terbaru</div>
+    <div class="news-item">
+      <div class="news-thumb">📸</div>
+      <div>
+        <div class="news-meta">28 Apr 2025 · Pengumuman</div>
+        <div class="news-title">Pembukaan PPDB Tahun Ajaran 2025/2026 Resmi Dimulai</div>
+      </div>
+    </div>
+    <div class="news-item">
+      <div class="news-thumb">🎓</div>
+      <div>
+        <div class="news-meta">20 Apr 2025 · Kegiatan</div>
+        <div class="news-title">Wisuda Santri Pondok Pesantren Angkatan IX</div>
+      </div>
+    </div>
+    <div class="news-item">
+      <div class="news-thumb">🌿</div>
+      <div>
+        <div class="news-meta">15 Apr 2025 · Prestasi</div>
+        <div class="news-title">Siswa SDIT Alam Raih Juara 1 Olimpiade Sains Tingkat Kota</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>© 2025 Yayasan Darul Furqan Pariaman</span>
+    <span>📍 Kota Pariaman, Sumatera Barat &nbsp;|&nbsp; ✉️ info@darulfurqan.sch.id</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 2 – PPDB ONLINE FORM
+══════════════════════════════════════════════ -->
+<div class="screen" id="screen-ppdb">
+  <div class="navbar">
+    <div class="navbar-brand">🌙 Darul Furqan</div>
+    <div class="nav-links"><a href="#">← Beranda</a><a href="#" class="active">PPDB Online</a></div>
+  </div>
+
+  <div class="form-wrap">
+    <div class="form-hd">Formulir PPDB 2025/2026</div>
+    <div class="form-sub">Isi data dengan lengkap dan benar. Semua kolom bertanda * wajib diisi.</div>
+
+    <!-- Step bar -->
+    <div class="steps">
+      <div class="step"><div class="step-num done">✓</div><div class="step-lbl">Pilih Jenjang</div></div>
+      <div class="step-line"></div>
+      <div class="step"><div class="step-num active">2</div><div class="step-lbl">Data Siswa</div></div>
+      <div class="step-line"></div>
+      <div class="step"><div class="step-num idle">3</div><div class="step-lbl">Orang Tua</div></div>
+      <div class="step-line"></div>
+      <div class="step"><div class="step-num idle">4</div><div class="step-lbl">Unggah Dokumen</div></div>
+      <div class="step-line"></div>
+      <div class="step"><div class="step-num idle">5</div><div class="step-lbl">Selesai</div></div>
+    </div>
+
+    <div style="font-size:14px;font-weight:600;color:#1A1A2E;margin-bottom:16px;">Step 2 – Data Calon Peserta Didik</div>
+
+    <div class="field">
+      <label>Nama Lengkap *</label>
+      <input type="text" value="Ahmad Fauzan" />
+    </div>
+    <div class="field-row2">
+      <div class="field">
+        <label>NISN</label>
+        <input type="text" value="0123456789" />
+      </div>
+      <div class="field">
+        <label>Jenis Kelamin *</label>
+        <select><option>Laki-laki</option><option>Perempuan</option></select>
+      </div>
+    </div>
+    <div class="field-row2">
+      <div class="field">
+        <label>Tempat Lahir *</label>
+        <input type="text" value="Pariaman" />
+      </div>
+      <div class="field">
+        <label>Tanggal Lahir *</label>
+        <input type="date" value="2018-05-12" />
+      </div>
+    </div>
+    <div class="field">
+      <label>Alamat Lengkap *</label>
+      <input type="text" value="Jl. Pahlawan No. 5, Pariaman Tengah" />
+    </div>
+    <div class="field">
+      <label>Asal Sekolah Sebelumnya</label>
+      <input type="text" value="TK Islam Terpadu Al-Hikmah" />
+    </div>
+    <div class="field">
+      <label>Jenjang yang Dipilih *</label>
+      <select><option>SDIT Alam</option><option>PAUD</option><option>Pondok Pesantren</option></select>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-secondary-btn">← Kembali</button>
+      <button class="btn-primary">Lanjut: Data Orang Tua →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 3 – STATUS PENDAFTARAN
+══════════════════════════════════════════════ -->
+<div class="screen" id="screen-status">
+  <div class="navbar">
+    <div class="navbar-brand">🌙 Darul Furqan</div>
+    <div class="nav-links"><a href="#">← Beranda</a><a href="#" class="active">Status Pendaftaran</a></div>
+  </div>
+
+  <div class="status-wrap">
+    <div style="font-size:18px;font-weight:600;color:#1A1A2E;margin-bottom:4px;">Cek Status Pendaftaran</div>
+    <div style="font-size:13px;color:#64748B;margin-bottom:18px;">Masukkan nomor pendaftaran yang diterima setelah mendaftar</div>
+
+    <div class="search-row">
+      <input type="text" value="PPDB-2025-00042" />
+      <button class="btn-primary">Cek Status</button>
+    </div>
+
+    <div class="status-card">
+      <div class="reg-no">No. Pendaftaran: PPDB-2025-00042</div>
+      <div class="applicant-name">Ahmad Fauzan</div>
+      <div style="font-size:12px;color:#94A3B8;margin-bottom:10px;">SDIT Alam · Tahun Ajaran 2025/2026</div>
+      <span class="badge badge-review">🔵 Sedang Diverifikasi</span>
+
+      <div class="divider"></div>
+      <div style="font-size:12px;font-weight:600;color:#64748B;margin-bottom:8px;">Riwayat Status</div>
+      <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div><div class="tl-text">Formulir diterima sistem</div><div class="tl-date">28 Apr 2025, 09.14 WIB</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot done"></div>
+        <div><div class="tl-text">Dokumen berhasil diunggah</div><div class="tl-date">28 Apr 2025, 10.02 WIB</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot active"></div>
+        <div><div class="tl-text">Verifikasi berkas oleh admin</div><div class="tl-date">Sedang berlangsung</div></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot idle"></div>
+        <div><div class="tl-text">Pengumuman hasil seleksi</div><div class="tl-date">Menunggu</div></div>
+      </div>
+
+      <div class="divider"></div>
+      <div style="font-size:12px;font-weight:600;color:#64748B;margin-bottom:8px;">Dokumen yang Diunggah</div>
+      <div class="doc-item"><span class="doc-name">📄 Akta Kelahiran</span><span class="badge badge-valid">✓ Valid</span></div>
+      <div class="doc-item"><span class="doc-name">📄 Kartu Keluarga</span><span class="badge badge-valid">✓ Valid</span></div>
+      <div class="doc-item"><span class="doc-name">📄 Pas Foto 3×4</span><span class="badge badge-pending">⏳ Menunggu Verifikasi</span></div>
+      <div class="doc-item"><span class="doc-name">📄 Ijazah / Rapor TK</span><span class="badge badge-pending">⏳ Menunggu Verifikasi</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 4 – DASHBOARD ADMIN
+══════════════════════════════════════════════ -->
+<div class="screen" id="screen-admin">
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-brand">🌙 Admin Panel</div>
+      <div class="sidebar-section">Utama</div>
+      <div class="sidebar-item active"><span class="ico">📊</span> Dashboard</div>
+      <div class="sidebar-item"><span class="ico">📋</span> Data PPDB</div>
+      <div class="sidebar-section">Konten</div>
+      <div class="sidebar-item"><span class="ico">📰</span> Berita & Pengumuman</div>
+      <div class="sidebar-item"><span class="ico">🖼️</span> Galeri</div>
+      <div class="sidebar-item"><span class="ico">🏫</span> Profil Sekolah</div>
+      <div class="sidebar-section">Sistem</div>
+      <div class="sidebar-item"><span class="ico">📩</span> Pesan Kontak</div>
+      <div class="sidebar-item"><span class="ico">👤</span> Pengguna Admin</div>
+      <div class="sidebar-item"><span class="ico">📈</span> Laporan</div>
+    </div>
+
+    <!-- Main content -->
+    <div class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <div class="admin-page-title">Dashboard</div>
+          <div class="admin-sub">Sabtu, 2 Mei 2025 · PPDB 2025/2026 Aktif</div>
+        </div>
+        <button class="btn-primary" style="font-size:12px;padding:8px 16px;">+ Tambah Konten</button>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="stat-grid">
+        <div class="stat-card blue">
+          <div class="stat-val">148</div>
+          <div class="stat-lbl">Total Pendaftar</div>
+        </div>
+        <div class="stat-card orange">
+          <div class="stat-val">32</div>
+          <div class="stat-lbl">Menunggu Verifikasi</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-val">104</div>
+          <div class="stat-lbl">Diterima</div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-val">12</div>
+          <div class="stat-lbl">Ditolak / Tidak Lengkap</div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+        <div class="table-card-header">
+          <div class="table-card-title">Pendaftaran Terbaru</div>
+          <a href="#" style="font-size:12px;color:#1A56DB;font-weight:500;">Lihat semua →</a>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>No. Daftar</th>
+              <th>Nama Siswa</th>
+              <th>Jenjang</th>
+              <th>Tanggal Daftar</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>PPDB-2025-00042</td>
+              <td>Ahmad Fauzan</td>
+              <td>SDIT Alam</td>
+              <td>28 Apr 2025</td>
+              <td><span class="badge badge-review">Verifikasi</span></td>
+              <td><span class="act-link">Lihat Detail →</span></td>
+            </tr>
+            <tr>
+              <td>PPDB-2025-00041</td>
+              <td>Siti Mariam</td>
+              <td>PAUD</td>
+              <td>27 Apr 2025</td>
+              <td><span class="badge badge-valid">Diterima</span></td>
+              <td><span class="act-link">Lihat Detail →</span></td>
+            </tr>
+            <tr>
+              <td>PPDB-2025-00040</td>
+              <td>Rizky Pratama</td>
+              <td>Pondok Pesantren</td>
+              <td>27 Apr 2025</td>
+              <td><span class="badge badge-pending">Menunggu</span></td>
+              <td><span class="act-link">Lihat Detail →</span></td>
+            </tr>
+            <tr>
+              <td>PPDB-2025-00039</td>
+              <td>Nadia Husna</td>
+              <td>SDIT Alam</td>
+              <td>26 Apr 2025</td>
+              <td><span class="badge badge-valid">Diterima</span></td>
+              <td><span class="act-link">Lihat Detail →</span></td>
+            </tr>
+            <tr>
+              <td>PPDB-2025-00038</td>
+              <td>Fadhlan Aziz</td>
+              <td>SDIT Alam</td>
+              <td>25 Apr 2025</td>
+              <td><span class="badge badge-tolak">Ditolak</span></td>
+              <td><span class="act-link">Lihat Detail →</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function switchTab(name, el) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('visible'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('visible');
+    el.classList.add('active');
+  }
+</script>
+</body>
+</html>
